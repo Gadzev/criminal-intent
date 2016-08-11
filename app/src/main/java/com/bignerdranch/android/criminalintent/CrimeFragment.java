@@ -41,11 +41,13 @@ public class CrimeFragment extends Fragment {
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_TIME = "DialogTime";
+    private static final String DIALOG_PHOTO = "DialogPhoto";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_TIME = 1;
     private static final int REQUEST_CONTACT = 2;
     private static final int REQUEST_PERMISSION = 3;
     private static final int REQUEST_PHOTO = 4;
+    private static final int REQUEST_ZOOMED_PHOTO = 5;
 
     private Crime mCrime;
     private File mPhotoFile;
@@ -237,7 +239,15 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                PhotoViewFragment dialog = PhotoViewFragment.newInstance(mPhotoFile);
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_ZOOMED_PHOTO);
+                dialog.show(manager, DIALOG_PHOTO);
+            }
+        });
 
         updatePhotoView();
 
